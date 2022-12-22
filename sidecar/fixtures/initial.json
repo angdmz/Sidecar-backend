@@ -1,0 +1,62 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "password": "pbkdf2_sha256$150000$a9Gr4TljNPwH$b7cQL0y8nMILns856ZqboZcKd+xPHNHszKUvVZPRoFA=",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true
+    }
+  },
+  {
+    "model": "investments.asset",
+    "fields": {
+      "type": "PUBLIC_STOCK",
+      "name": "Microsoft"
+    }
+  },
+  {
+    "model": "investments.asset",
+    "fields": {
+      "type": "PUBLIC_STOCK",
+      "name": "Tesla"
+    }
+  },
+  {
+    "model": "investments.asset",
+    "fields": {
+      "type": "PUBLIC_STOCK",
+      "name": "Google"
+    }
+  },
+  {
+    "model": "investments.asset",
+    "fields": {
+      "type": "PUBLIC_STOCK",
+      "name": "Lasalle Logiport REIT"
+    }
+  },
+  {
+    "model": "investments.asset",
+    "fields": {
+      "type": "PUBLIC_STOCK",
+      "name": "KKR Income Opportunities Fund"
+    }
+  },
+  {
+    "model": "investments.investor",
+    "pk": "93888371-d583-4154-b326-1a7ef9bbd38c",
+    "fields": {
+      "name": "My super cool investor"
+    }
+  },
+  {
+    "model": "investments.investment",
+    "fields": {
+      "name": "My super cool investor",
+
+    }
+  }
+]

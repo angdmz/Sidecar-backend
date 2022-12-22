@@ -1,0 +1,78 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    container_name: sidecar-postgres
+    expose:
+      - 5432
+    ports:
+      - ${PUBLIC_DB_PORT:-5432}:5432
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  sidecar:
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sidecar-backend:dev
+    container_name: sidecar-app
+    volumes:
+    - .:/opt/project
+    ports:
+    - ${API_PORT:-8000}:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file:
+      - .env
+  makemigrations:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+    - .:/opt/project
+    image: sidecar-backend:dev
+    container_name: sidecar-makemigrations
+    command: python manage.py makemigrations --noinput
+    env_file:
+      - .env
+  migrations:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - makemigrations
+    image: sidecar-backend:dev
+    container_name: sidecar-migrations
+    command: python manage.py migrate --noinput
+    volumes:
+    - .:/opt/project
+    env_file:
+      - .env
+  fixtures:
+    depends_on:
+      - migrations
+    image: sidecar-backend:dev
+    container_name: sidecar-fixtures
+    command: python manage.py loaddata initial
+    volumes:
+    - .:/opt/project
+    env_file:
+      - .env
+  collect-static:
+    image: sidecar-backend:dev
+    container_name: sidecar-collectstatic
+    command: python manage.py collectstatic --noinput
+    volumes:
+    - .:/opt/project
+    env_file:
+      - .env

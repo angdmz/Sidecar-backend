@@ -1,0 +1,9 @@
+django==4.1.4
+boto3==1.26.34
+py-moneyed==3.0
+pytest-django==4.5.2
+djangorestframework==3.14.0
+psycopg2==2.8.4
+psycopg2-binary==2.8.4
+drf-yasg==1.21.4
+django-cors-headers==3.13.0
